@@ -12,8 +12,6 @@ message(STATUS "Found MLIR ${MLIR_PACKAGE_VERSION}")
 message(STATUS "Using MLIRConfig.cmake in: ${MLIR_DIR}")
 message(STATUS "Found MLIRTableGen: ${MLIR_TABLEGEN_EXE}")
 
-set(MLIR_TABLEGEN_EXE ${MLIR_TABLEGEN_EXEUTABLE})
-
 message(STATUS "LLVM_INCLUDE_DIR include dir: ${LLVM_INCLUDE_DIR}")
 message(STATUS "MLIR_INCLUDE_DIR include dir: ${MLIR_INCLUDE_DIR}")
 
@@ -29,13 +27,13 @@ include(AddMLIR)
 include(AddLLVM)
 
 # set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++17 -fno-rtti")
-macro(add_toy_chapter name)
-  add_dependencies(Toy ${name})
-  add_llvm_example(${name} ${ARGN})
-endmacro(add_toy_chapter name)
+# macro(add_toy_chapter name)
+#   add_dependencies(Toy ${name})
+#   add_executable(${name} ${ARGN})
+# endmacro(add_toy_chapter name)
 
-add_subdirectory(ch1)
-# add_subdirectory(ch2)
+# add_subdirectory(ch1)
+add_subdirectory(ch2)
 # add_subdirectory(ch3)
 # add_subdirectory(ch4)
 # add_subdirectory(ch5)
