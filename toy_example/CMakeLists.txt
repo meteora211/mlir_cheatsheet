@@ -32,7 +32,7 @@ include(AddLLVM)
 #   add_executable(${name} ${ARGN})
 # endmacro(add_toy_chapter name)
 
-# add_subdirectory(ch1)
+add_subdirectory(ch1)
 add_subdirectory(ch2)
 # add_subdirectory(ch3)
 # add_subdirectory(ch4)
