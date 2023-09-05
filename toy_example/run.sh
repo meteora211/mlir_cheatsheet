@@ -26,3 +26,7 @@
 ./build/ch4/toyc-ch4 ./ch4/inline.toy -emit=mlir -mlir-print-debuginfo &> ch4_wo_opt.mlir
 ./build/ch4/toyc-ch4 ./ch4/inline.toy -emit=mlir -opt -mlir-print-debuginfo &> ch4_inline_only.mlir
 ./build/ch4/toyc-ch4 ./ch4/inline.toy -emit=mlir -opt -infer-shape -mlir-print-debuginfo &> ch4_inline_infer_shape.mlir
+
+#chpt5
+./build/ch5/toyc-ch5 ./ch5/convert.toy -opt -emit=mlir -mlir-print-debuginfo &> ch5_origin.mlir
+./build/ch5/toyc-ch5 ./ch5/convert.toy -opt -emit=mlir-affine -mlir-print-debuginfo &> ch5_affine.mlir
