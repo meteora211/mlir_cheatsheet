@@ -21,3 +21,8 @@
 # NOTE: implemented in ToyCombine.td
 ./build/ch3/toyc-ch3 ./ch3/reshape.toy -emit=mlir -opt -mlir-print-debuginfo &> ch3_opt_reshape.mlir
 ./build/ch3/toyc-ch3 ./ch3/reshape.toy -emit=mlir -mlir-print-debuginfo &> ch3_wo_opt_reshape.mlir
+
+#chpt4
+./build/ch4/toyc-ch4 ./ch4/inline.toy -emit=mlir -mlir-print-debuginfo &> ch4_wo_opt.mlir
+./build/ch4/toyc-ch4 ./ch4/inline.toy -emit=mlir -opt -mlir-print-debuginfo &> ch4_inline_only.mlir
+./build/ch4/toyc-ch4 ./ch4/inline.toy -emit=mlir -opt -infer-shape -mlir-print-debuginfo &> ch4_inline_infer_shape.mlir

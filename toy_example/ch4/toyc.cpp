@@ -39,6 +39,10 @@ static cl::opt<std::string> inputFilename(cl::Positional,
                                           cl::init("-"),
                                           cl::value_desc("filename"));
 
+bool DebugFlag;                  // the actual value
+static cl::opt<bool, true>       // The parser
+Debug("debug", cl::desc("Enable debug output"), cl::Hidden, cl::location(DebugFlag));
+
 namespace {
 enum InputType { Toy, MLIR };
 } // namespace
@@ -57,6 +61,7 @@ static cl::opt<enum Action> emitAction(
     cl::values(clEnumValN(DumpMLIR, "mlir", "output the MLIR dump")));
 
 static cl::opt<bool> enableOpt("opt", cl::desc("Enable optimizations"));
+static cl::opt<bool> enableInfer("infer-shape", cl::desc("Enable shape inference"));
 
 /// Returns a Toy AST resulting from parsing the file or a nullptr on error.
 std::unique_ptr<toy::ModuleAST> parseInputFile(llvm::StringRef filename) {
@@ -124,9 +129,11 @@ int dumpMLIR() {
     // Now that there is only one function, we can infer the shapes of each of
     // the operations.
     mlir::OpPassManager &optPM = pm.nest<mlir::toy::FuncOp>();
-    optPM.addPass(mlir::toy::createShapeInferencePass());
     optPM.addPass(mlir::createCanonicalizerPass());
     optPM.addPass(mlir::createCSEPass());
+    if (enableInfer) {
+      optPM.addPass(mlir::toy::createShapeInferencePass());
+    }
 
     if (mlir::failed(pm.run(*module)))
       return 4;
