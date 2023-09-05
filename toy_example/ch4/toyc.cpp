@@ -39,10 +39,6 @@ static cl::opt<std::string> inputFilename(cl::Positional,
                                           cl::init("-"),
                                           cl::value_desc("filename"));
 
-bool DebugFlag;                  // the actual value
-static cl::opt<bool, true>       // The parser
-Debug("debug", cl::desc("Enable debug output"), cl::Hidden, cl::location(DebugFlag));
-
 namespace {
 enum InputType { Toy, MLIR };
 } // namespace
