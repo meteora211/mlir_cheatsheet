@@ -30,3 +30,12 @@
 #chpt5
 ./build/ch5/toyc-ch5 ./ch5/convert.toy -opt -emit=mlir -mlir-print-debuginfo &> ch5_origin.mlir
 ./build/ch5/toyc-ch5 ./ch5/convert.toy -opt -emit=mlir-affine -mlir-print-debuginfo &> ch5_affine.mlir
+
+#chpt6
+./build/ch6/toyc-ch6 ./ch6/convert.toy -opt -emit=mlir -mlir-print-debuginfo &> ch6_origin.mlir
+./build/ch6/toyc-ch6 ./ch6/convert.toy -opt -emit=mlir-llvm -mlir-print-debuginfo &> ch6_mlir_llvm.mlir
+./build/ch6/toyc-ch6 ./ch6/convert.toy -opt -emit=llvm -mlir-print-debuginfo &> ch6_llvm.mlir
+echo 'def main() { print([[1, 2], [3, 4]]); }' | ./build/ch6/toyc-ch6 -emit=jit
+
+#chpt7
+./build/ch7/toyc-ch7 ./ch7/struct.toy -opt -emit=mlir -mlir-print-debuginfo &> ch7_struct.mlir

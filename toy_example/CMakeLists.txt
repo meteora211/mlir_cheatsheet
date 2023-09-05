@@ -1,5 +1,6 @@
 cmake_minimum_required(VERSION 3.10)
 
+cmake_policy(SET CMP0116 NEW)
 project(mlir-example LANGUAGES C CXX)
 set(CMAKE_CXX_STANDARD 17)
 
@@ -26,16 +27,10 @@ include(TableGen)
 include(AddMLIR)
 include(AddLLVM)
 
-# set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++17 -fno-rtti")
-# macro(add_toy_chapter name)
-#   add_dependencies(Toy ${name})
-#   add_executable(${name} ${ARGN})
-# endmacro(add_toy_chapter name)
-
 add_subdirectory(ch1)
 add_subdirectory(ch2)
 add_subdirectory(ch3)
 add_subdirectory(ch4)
 add_subdirectory(ch5)
-# add_subdirectory(ch6)
-# add_subdirectory(ch7)
+add_subdirectory(ch6)
+add_subdirectory(ch7)
