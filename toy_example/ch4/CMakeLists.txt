@@ -18,7 +18,7 @@ add_executable(toyc-ch4
   mlir/ShapeInferencePass.cpp
   mlir/ToyCombine.cpp)
 
-add_dependencies(toyc-ch3
+add_dependencies(toyc-ch4
   ToyCh4OpsIncGen
   ToyCh4ShapeInferenceInterfaceIncGen
   ToyCh4CombineIncGen
