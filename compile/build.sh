@@ -13,6 +13,8 @@ cmake -G Ninja "-S $REPO_DIR/llvm" \
    -DLLVM_ENABLE_ASSERTIONS=ON \
    -DCMAKE_INSTALL_PREFIX=$INSTALL_DIR \
    -DMLIR_INCLUDE_INTEGRATION_TESTS=OFF \
+   -DMLIR_ENABLE_BINDINGS_PYTHON=ON \
+   -DPython3_EXECUTABLE=$(which python) \
    -DLLVM_INCLUDE_TOOLS=ON
 # Using clang and lld speeds up the build, we recommend adding:
 # -DCMAKE_C_COMPILER=clang -DCMAKE_CXX_COMPILER=clang++ -DLLVM_ENABLE_LLD=ON
