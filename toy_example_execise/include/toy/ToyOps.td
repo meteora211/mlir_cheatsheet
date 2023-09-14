@@ -227,6 +227,9 @@ def ReshapeOp : Toy_Op<"reshape"> {
   // We expect that the reshape operation returns a statically shaped tensor.
   let results = (outs StaticShapeTensorOf<[F64]>);
 
+  // Enable registering canonicalization patterns with this operation.
+  let hasCanonicalizer = 1;
+
   let assemblyFormat = [{
     `(` $input `:` type($input) `)` attr-dict `to` type(results)
   }];
@@ -292,6 +295,9 @@ def TransposeOp : Toy_Op<"transpose"> {
   let builders = [
     OpBuilder<(ins "Value":$input)>
   ];
+
+  // Enable registering canonicalization patterns with this operation.
+  let hasCanonicalizer = 1;
 
   // Invoke a static verify method to verify this transpose operation.
   let hasVerifier = 1;

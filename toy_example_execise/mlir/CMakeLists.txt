@@ -1,6 +1,7 @@
 add_mlir_dialect_library(MLIRToy
         ToyDialect.cpp
         ToyOps.cpp
+        Rewrite.cpp
         MLIRGen.cpp
 
         ADDITIONAL_HEADER_DIRS
@@ -8,6 +9,7 @@ add_mlir_dialect_library(MLIRToy
 
         DEPENDS
         MLIRToyOpsIncGen
+        MLIRToyRewriteIncGen
 
 	LINK_LIBS PUBLIC
 	MLIRIR
