@@ -7,3 +7,5 @@ add_mlir_doc(ToyOps ToyOps toy/ -gen-op-doc)
 set(LLVM_TARGET_DEFINITIONS Rewrite.td)
 mlir_tablegen(ToyRewrite.h.inc -gen-rewriters)
 add_public_tablegen_target(MLIRToyRewriteIncGen)
+
+add_mlir_interface(ShapeInferenceInterface)

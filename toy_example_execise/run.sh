@@ -15,3 +15,4 @@ LLVM_REPO_DIR=$(pwd)/../compile/llvm-project
 
 ./build/toyc ./tests/inline.toy -emit=mlir -mlir-print-debuginfo &> ./tests/ch4_wo_opt.mlir
 ./build/toyc ./tests/inline.toy -emit=mlir -opt -mlir-print-debuginfo &> ./tests/ch4_inline_only.mlir
+./build/toyc ./tests/inline.toy -emit=mlir -opt -infer-shape -mlir-print-debuginfo &> ./tests/ch4_inline_infer_shape.mlir

@@ -3,6 +3,7 @@ add_mlir_dialect_library(MLIRToy
         ToyOps.cpp
         Rewrite.cpp
         MLIRGen.cpp
+        ShapeInferencePass.cpp
 
         ADDITIONAL_HEADER_DIRS
         ${PROJECT_SOURCE_DIR}/include/toy
@@ -10,6 +11,7 @@ add_mlir_dialect_library(MLIRToy
         DEPENDS
         MLIRToyOpsIncGen
         MLIRToyRewriteIncGen
+        MLIRShapeInferenceInterfaceIncGen
 
 	LINK_LIBS PUBLIC
 	MLIRIR

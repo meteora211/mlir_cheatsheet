@@ -148,6 +148,8 @@ mlir::ParseResult AddOp::parse(mlir::OpAsmParser &parser,
 
 void AddOp::print(mlir::OpAsmPrinter &p) { printBinaryOp(p, *this); }
 
+void AddOp::inferShapes() { getResult().setType(getOperand(0).getType()); }
+
 //===----------------------------------------------------------------------===//
 // GenericCallOp
 //===----------------------------------------------------------------------===//
@@ -233,6 +235,8 @@ mlir::ParseResult MulOp::parse(mlir::OpAsmParser &parser,
 
 void MulOp::print(mlir::OpAsmPrinter &p) { printBinaryOp(p, *this); }
 
+void MulOp::inferShapes() { getResult().setType(getOperand(0).getType()); }
+
 //===----------------------------------------------------------------------===//
 // ReturnOp
 //===----------------------------------------------------------------------===//
@@ -295,6 +299,12 @@ mlir::LogicalResult TransposeOp::verify() {
   return mlir::success();
 }
 
+void TransposeOp::inferShapes() {
+  auto arrayTy = getOperand().getType().cast<RankedTensorType>();
+  SmallVector<int64_t, 2> dims(llvm::reverse(arrayTy.getShape()));
+  getResult().setType(RankedTensorType::get(dims, arrayTy.getElementType()));
+}
+
 //===----------------------------------------------------------------------===//
 // CastOp
 //===----------------------------------------------------------------------===//
@@ -313,6 +323,8 @@ bool CastOp::areCastCompatible(TypeRange inputs, TypeRange outputs) {
   // The shape is required to match if both types are ranked.
   return !input.hasRank() || !output.hasRank() || input == output;
 }
+
+void CastOp::inferShapes() { getResult().setType(getOperand().getType()); }
 
 #define GET_OP_CLASSES
 #include "toy/ToyOps.cpp.inc"

@@ -14,7 +14,7 @@
 #include "toy/ToyOps.h"
 #include "toy/MLIRGen.h"
 #include "toy/Parser.h"
-#include <memory>
+#include "toy/Passes.h"
 
 #include "mlir/IR/AsmState.h"
 #include "mlir/IR/BuiltinOps.h"
@@ -57,6 +57,7 @@ static cl::opt<enum Action>
     cl::values(clEnumValN(DumpMLIR, "mlir", "output the MLIR dump")));
 
 static cl::opt<bool> enableOpt("opt", cl::desc("Enable optimizations"));
+static cl::opt<bool> enableInfer("infer-shape", cl::desc("Enable shape inference"));
 
 /// Returns a Toy AST resulting from parsing the file or a nullptr on error.
 std::unique_ptr<toy::ModuleAST> parseInputFile(llvm::StringRef filename) {
@@ -122,8 +123,13 @@ int dumpMLIR() {
     // Inline all functions into main and then delete them.
     pm.addPass(mlir::createInlinerPass());
 
-    // Add a run of the canonicalizer to optimize the mlir module.
-    pm.addNestedPass<mlir::toy::FuncOp>(mlir::createCanonicalizerPass());
+    mlir::OpPassManager &optPM = pm.nest<mlir::toy::FuncOp>();
+    optPM.addPass(mlir::createCanonicalizerPass());
+    optPM.addPass(mlir::createCSEPass());
+    if (enableInfer) {
+      optPM.addPass(mlir::toy::createShapeInferencePass());
+    }
+
     if (mlir::failed(pm.run(*module)))
       return 4;
   }

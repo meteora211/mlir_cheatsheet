@@ -10,6 +10,8 @@
 #include "mlir/Interfaces/CastInterfaces.h"
 #include "mlir/Interfaces/SideEffectInterfaces.h"
 
+#include "toy/ShapeInferenceInterface.h"
+
 #define GET_OP_CLASSES
 #include "toy/ToyOps.h.inc"
 
