@@ -161,6 +161,16 @@ void GenericCallOp::build(mlir::OpBuilder &builder, mlir::OperationState &state,
                      mlir::SymbolRefAttr::get(builder.getContext(), callee));
 }
 
+/// Return the callee of the generic call operation, this is required by the
+/// call interface.
+CallInterfaceCallable GenericCallOp::getCallableForCallee() {
+  return (*this)->getAttrOfType<SymbolRefAttr>("callee");
+}
+
+/// Get the argument operands to the called function, this is required by the
+/// call interface.
+Operation::operand_range GenericCallOp::getArgOperands() { return getInputs(); }
+
 //===----------------------------------------------------------------------===//
 // FuncOp
 //===----------------------------------------------------------------------===//
@@ -195,6 +205,15 @@ void FuncOp::print(mlir::OpAsmPrinter &p) {
   mlir::function_interface_impl::printFunctionOp(
       p, *this, /*isVariadic=*/false, getFunctionTypeAttrName(),
       getArgAttrsAttrName(), getResAttrsAttrName());
+}
+
+/// Returns the region on the function operation that is callable.
+mlir::Region *FuncOp::getCallableRegion() { return &getBody(); }
+
+/// Returns the results types that the callable region produces when
+/// executed.
+llvm::ArrayRef<mlir::Type> FuncOp::getCallableResults() {
+  return getFunctionType().getResults();
 }
 
 //===----------------------------------------------------------------------===//
@@ -275,5 +294,25 @@ mlir::LogicalResult TransposeOp::verify() {
   }
   return mlir::success();
 }
+
+//===----------------------------------------------------------------------===//
+// CastOp
+//===----------------------------------------------------------------------===//
+
+/// Returns true if the given set of input and result types are compatible with
+/// this cast operation. This is required by the `CastOpInterface` to verify
+/// this operation and provide other additional utilities.
+bool CastOp::areCastCompatible(TypeRange inputs, TypeRange outputs) {
+  if (inputs.size() != 1 || outputs.size() != 1)
+    return false;
+  // The inputs must be Tensors with the same element type.
+  TensorType input = inputs.front().dyn_cast<TensorType>();
+  TensorType output = outputs.front().dyn_cast<TensorType>();
+  if (!input || !output || input.getElementType() != output.getElementType())
+    return false;
+  // The shape is required to match if both types are ranked.
+  return !input.hasRank() || !output.hasRank() || input == output;
+}
+
 #define GET_OP_CLASSES
 #include "toy/ToyOps.cpp.inc"
