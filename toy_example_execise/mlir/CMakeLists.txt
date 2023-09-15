@@ -4,6 +4,7 @@ add_mlir_dialect_library(MLIRToy
         Rewrite.cpp
         MLIRGen.cpp
         ShapeInferencePass.cpp
+        LowerToAffineLoops.cpp
 
         ADDITIONAL_HEADER_DIRS
         ${PROJECT_SOURCE_DIR}/include/toy
